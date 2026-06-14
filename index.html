@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>핏툴 | 무료 건강·운동 계산기 7종 (TDEE·체지방·1RM·단백질·BMI·물·칼로리소모)</title>
+<meta name="description" content="네이버에 없는 전문 운동·다이어트 계산기 7종. 하루 칼로리(TDEE), 1RM 최대중량, 단백질 섭취량, 체지방률, 표준체중, 물 섭취량, 운동 칼로리 소모량을 1초 만에 계산하세요. 100% 무료." />
+<meta name="keywords" content="TDEE 계산기, 1RM 계산기, 단백질 섭취량 계산기, 체지방률 계산기, 표준체중 계산기, 물 섭취량 계산기, 칼로리 소모량 계산기, 다이어트 계산기, 헬스 계산기" />
+<meta property="og:title" content="핏툴 | 무료 건강·운동 계산기 7종" />
+<meta property="og:description" content="TDEE·1RM·단백질·체지방·BMI·물·칼로리소모를 1초 만에 계산하는 무료 도구" />
+<meta property="og:type" content="website" />
+<meta property="og:locale" content="ko_KR" />
+<link rel="canonical" href="https://example.com/" />
+
+<!-- ▼▼▼ 구글 애드센스: 승인 후 아래 한 줄의 주석을 풀고 ca-pub-XXXX 를 본인 게시자 ID로 교체하세요 ▼▼▼ -->
+<!-- <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script> -->
+
+<!-- 구조화 데이터 (구글 검색 노출에 유리) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "핏툴 건강 계산기",
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "Web",
+  "inLanguage": "ko",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "KRW" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"TDEE대로 먹으면 살이 빠지나요?","acceptedAnswer":{"@type":"Answer","text":"TDEE는 유지 칼로리입니다. 살을 빼려면 300~500kcal 적게, 근육을 키우려면 200~300kcal 많게 드세요."}},
+    {"@type":"Question","name":"1RM을 직접 들지 않고 어떻게 아나요?","acceptedAnswer":{"@type":"Answer","text":"가벼운 무게로 여러 번 든 기록을 넣으면 Epley 공식으로 최대중량을 추정합니다."}},
+    {"@type":"Question","name":"줄자 체지방률이 인바디만큼 정확한가요?","acceptedAnswer":{"@type":"Answer","text":"미해군 둘레 공식은 ±3~4% 오차가 있어 변화 추세 확인용으로 적합합니다."}}
+  ]
+}
+</script>
+
+<style>
+  :root{
+    --bg:#0f1115; --card:#181b22; --line:#262b35; --txt:#e8eaed;
+    --sub:#9aa3b2; --accent:#4cc2ff; --accent2:#7af5b0; --warn:#ffb454;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;font-family:'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+    background:var(--bg);color:var(--txt);line-height:1.6;-webkit-font-smoothing:antialiased}
+  header{padding:28px 20px 8px;text-align:center}
+  header h1{margin:0;font-size:1.5rem;letter-spacing:-.5px}
+  header h1 span{color:var(--accent)}
+  header p{margin:6px 0 0;color:var(--sub);font-size:.9rem}
+  .wrap{max-width:560px;margin:0 auto;padding:16px}
+  nav.tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 4px;position:sticky;top:0;
+    background:var(--bg);z-index:10;border-bottom:1px solid var(--line)}
+  nav.tabs button{flex:0 0 auto;background:var(--card);color:var(--sub);border:1px solid var(--line);
+    padding:8px 14px;border-radius:999px;font-size:.85rem;cursor:pointer;transition:.15s;white-space:nowrap}
+  nav.tabs button.active{background:var(--accent);color:#04222e;border-color:var(--accent);font-weight:700}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin:16px 0}
+  .card h2{margin:0 0 4px;font-size:1.15rem}
+  .card .hint{color:var(--sub);font-size:.82rem;margin:0 0 16px}
+  label{display:block;font-size:.85rem;color:var(--sub);margin:12px 0 4px}
+  input,select{width:100%;padding:12px;background:#11141a;border:1px solid var(--line);
+    border-radius:10px;color:var(--txt);font-size:1rem}
+  input:focus,select:focus{outline:none;border-color:var(--accent)}
+  .row{display:flex;gap:10px}
+  .row>div{flex:1}
+  button.calc{width:100%;margin-top:18px;padding:14px;background:var(--accent);color:#04222e;
+    border:none;border-radius:10px;font-size:1rem;font-weight:700;cursor:pointer}
+  button.calc:active{transform:scale(.99)}
+  .result{margin-top:16px;padding:16px;background:#10231d;border:1px solid #1f4a3a;border-radius:12px;display:none}
+  .result.show{display:block;animation:fade .25s}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
+  .result .big{font-size:1.8rem;font-weight:800;color:var(--accent2)}
+  .result .unit{font-size:.95rem;color:var(--sub)}
+  .result table{width:100%;border-collapse:collapse;margin-top:10px;font-size:.9rem}
+  .result td{padding:6px 0;border-top:1px solid #1f4a3a}
+  .result td:last-child{text-align:right;font-weight:700}
+  .panel{display:none}
+  .panel.active{display:block}
+  .ad-slot{margin:16px 0;padding:14px;border:1px dashed var(--line);border-radius:12px;
+    text-align:center;color:var(--sub);font-size:.8rem;background:#13161d}
+  .coupang{margin:16px 0}
+  .coupang h3{font-size:.95rem;margin:0 0 10px;color:var(--warn)}
+  .coupang a{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--txt);
+    background:#13161d;border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:8px;transition:.15s}
+  .coupang a:hover{border-color:var(--accent)}
+  .coupang .emoji{font-size:1.6rem}
+  .coupang .t{font-size:.9rem;font-weight:600}
+  .coupang .d{font-size:.78rem;color:var(--sub)}
+  .disclosure{font-size:.72rem;color:var(--sub);margin-top:4px}
+  footer{text-align:center;color:var(--sub);font-size:.78rem;padding:30px 20px 50px}
+  .faq{margin-top:8px}
+  .faq details{border-top:1px solid var(--line);padding:10px 0}
+  .faq summary{cursor:pointer;font-size:.92rem}
+  .faq p{color:var(--sub);font-size:.86rem;margin:8px 0 0}
+</style>
+</head>
+<body>
+<header>
+  <h1><span>핏</span>툴</h1>
+  <p>네이버에 없는 전문 운동·다이어트 계산기 7종 · 100% 무료</p>
+</header>
+
+<div class="wrap">
+  <nav class="tabs" id="tabs">
+    <button class="active" data-tab="tdee">🔥 하루 칼로리(TDEE)</button>
+    <button data-tab="protein">🥩 단백질</button>
+    <button data-tab="orm">🏋️ 1RM</button>
+    <button data-tab="bodyfat">📊 체지방률</button>
+    <button data-tab="ideal">⚖️ 표준체중</button>
+    <button data-tab="water">💧 물 섭취량</button>
+    <button data-tab="burn">🏃 칼로리 소모</button>
+  </nav>
+
+  <!-- 상단 광고 자리 -->
+  <div class="ad-slot">광고 영역 (애드센스 승인 후 자동 노출)</div>
+
+  <!-- 1. TDEE -->
+  <section class="panel active" id="tdee">
+    <div class="card">
+      <h2>하루 칼로리 소모량 (TDEE)</h2>
+      <p class="hint">기초대사량 + 활동량 = 하루에 태우는 총 칼로리. 다이어트·벌크업의 기준값이에요.</p>
+      <div class="row">
+        <div><label>성별</label>
+          <select id="t_sex"><option value="m">남성</option><option value="f">여성</option></select></div>
+        <div><label>나이</label><input id="t_age" type="number" inputmode="numeric" placeholder="예: 30"></div>
+      </div>
+      <div class="row">
+        <div><label>키 (cm)</label><input id="t_h" type="number" inputmode="decimal" placeholder="175"></div>
+        <div><label>몸무게 (kg)</label><input id="t_w" type="number" inputmode="decimal" placeholder="70"></div>
+      </div>
+      <label>활동량</label>
+      <select id="t_act">
+        <option value="1.2">거의 안 움직임 (좌식 생활)</option>
+        <option value="1.375">가벼운 운동 (주 1~3회)</option>
+        <option value="1.55" selected>보통 운동 (주 3~5회)</option>
+        <option value="1.725">강한 운동 (주 6~7회)</option>
+        <option value="1.9">매우 강함 (육체노동/선수)</option>
+      </select>
+      <button class="calc" onclick="calcTDEE()">계산하기</button>
+      <div class="result" id="t_res">
+        <div><span class="big" id="t_tdee">0</span> <span class="unit">kcal / 하루 유지 칼로리</span></div>
+        <table>
+          <tr><td>기초대사량(BMR)</td><td id="t_bmr">0 kcal</td></tr>
+          <tr><td>다이어트 (−500kcal)</td><td id="t_cut">0 kcal</td></tr>
+          <tr><td>벌크업 (+300kcal)</td><td id="t_bulk">0 kcal</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 단백질 -->
+  <section class="panel" id="protein">
+    <div class="card">
+      <h2>하루 단백질 권장 섭취량</h2>
+      <p class="hint">목표에 따라 체중 1kg당 필요한 단백질이 달라집니다.</p>
+      <label>몸무게 (kg)</label><input id="p_w" type="number" inputmode="decimal" placeholder="70">
+      <label>목표</label>
+      <select id="p_goal">
+        <option value="0.8">건강 유지 (0.8g/kg)</option>
+        <option value="1.6" selected>근육 증가 (1.6g/kg)</option>
+        <option value="2.0">다이어트 중 근손실 방지 (2.0g/kg)</option>
+        <option value="2.2">고강도 벌크업 (2.2g/kg)</option>
+      </select>
+      <button class="calc" onclick="calcProtein()">계산하기</button>
+      <div class="result" id="p_res">
+        <div><span class="big" id="p_g">0</span> <span class="unit">g / 하루 단백질</span></div>
+        <table>
+          <tr><td>닭가슴살 환산</td><td id="p_chk">0 개</td></tr>
+          <tr><td>계란 환산</td><td id="p_egg">0 개</td></tr>
+          <tr><td>프로틴 스쿱 환산</td><td id="p_scoop">0 스쿱</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. 1RM -->
+  <section class="panel" id="orm">
+    <div class="card">
+      <h2>1RM (최대중량) 계산기</h2>
+      <p class="hint">한 번에 들 수 있는 최대 무게를 추정합니다. 프로그램 강도 설정의 핵심.</p>
+      <div class="row">
+        <div><label>중량 (kg)</label><input id="o_w" type="number" inputmode="decimal" placeholder="60"></div>
+        <div><label>반복 횟수</label><input id="o_r" type="number" inputmode="numeric" placeholder="8"></div>
+      </div>
+      <button class="calc" onclick="calcORM()">계산하기</button>
+      <div class="result" id="o_res">
+        <div><span class="big" id="o_orm">0</span> <span class="unit">kg / 추정 1RM</span></div>
+        <table>
+          <tr><td>90% (3~4회)</td><td id="o_90">0 kg</td></tr>
+          <tr><td>80% (8회)</td><td id="o_80">0 kg</td></tr>
+          <tr><td>70% (12회)</td><td id="o_70">0 kg</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 체지방 -->
+  <section class="panel" id="bodyfat">
+    <div class="card">
+      <h2>체지방률 추정 (미해군 공식)</h2>
+      <p class="hint">줄자만 있으면 측정 가능. 인바디 없이 대략적인 체지방률을 추정해요.</p>
+      <div class="row">
+        <div><label>성별</label>
+          <select id="b_sex"><option value="m">남성</option><option value="f">여성</option></select></div>
+        <div><label>키 (cm)</label><input id="b_h" type="number" inputmode="decimal" placeholder="175"></div>
+      </div>
+      <div class="row">
+        <div><label>허리둘레 (cm)</label><input id="b_waist" type="number" inputmode="decimal" placeholder="82"></div>
+        <div><label>목둘레 (cm)</label><input id="b_neck" type="number" inputmode="decimal" placeholder="38"></div>
+      </div>
+      <div id="b_hipwrap" style="display:none">
+        <label>엉덩이둘레 (cm, 여성만)</label><input id="b_hip" type="number" inputmode="decimal" placeholder="95">
+      </div>
+      <button class="calc" onclick="calcBF()">계산하기</button>
+      <div class="result" id="b_res">
+        <div><span class="big" id="b_pct">0</span> <span class="unit">% / 추정 체지방률</span></div>
+        <table>
+          <tr><td>분류</td><td id="b_cat">-</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 표준체중 -->
+  <section class="panel" id="ideal">
+    <div class="card">
+      <h2>표준체중 / BMI 계산기</h2>
+      <p class="hint">키 기준 적정 체중 범위(BMI 18.5~22.9)와 현재 BMI를 확인하세요.</p>
+      <div class="row">
+        <div><label>키 (cm)</label><input id="i_h" type="number" inputmode="decimal" placeholder="170"></div>
+        <div><label>현재 몸무게 (kg, 선택)</label><input id="i_w" type="number" inputmode="decimal" placeholder="68"></div>
+      </div>
+      <button class="calc" onclick="calcIdeal()">계산하기</button>
+      <div class="result" id="i_res">
+        <div><span class="big" id="i_std">0</span> <span class="unit">kg / 표준체중(BMI 22)</span></div>
+        <table>
+          <tr><td>정상 체중 범위</td><td id="i_range">0 ~ 0 kg</td></tr>
+          <tr><td>현재 BMI</td><td id="i_bmi">-</td></tr>
+          <tr><td>판정</td><td id="i_cat">-</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. 물 섭취량 -->
+  <section class="panel" id="water">
+    <div class="card">
+      <h2>하루 물 섭취 권장량</h2>
+      <p class="hint">체중과 활동량 기준 하루 권장 수분량입니다(음식 수분 제외 음료 기준).</p>
+      <label>몸무게 (kg)</label><input id="w_w" type="number" inputmode="decimal" placeholder="70">
+      <label>활동/운동 강도</label>
+      <select id="w_act">
+        <option value="33" selected>보통 (33ml/kg)</option>
+        <option value="38">활동 많음·더운 날 (38ml/kg)</option>
+        <option value="43">고강도 운동 (43ml/kg)</option>
+      </select>
+      <button class="calc" onclick="calcWater()">계산하기</button>
+      <div class="result" id="w_res">
+        <div><span class="big" id="w_l">0</span> <span class="unit">L / 하루 권장량</span></div>
+        <table>
+          <tr><td>밀리리터(ml)</td><td id="w_ml">0 ml</td></tr>
+          <tr><td>200ml 컵 환산</td><td id="w_cup">0 잔</td></tr>
+          <tr><td>500ml 생수 환산</td><td id="w_bottle">0 병</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. 칼로리 소모 -->
+  <section class="panel" id="burn">
+    <div class="card">
+      <h2>운동 칼로리 소모량 계산기</h2>
+      <p class="hint">운동 종류·시간·체중으로 소모 칼로리를 추정합니다(MET 기준).</p>
+      <label>운동 종류</label>
+      <select id="bn_met">
+        <option value="3.5">걷기 (보통)</option>
+        <option value="9.8">달리기 (빠르게)</option>
+        <option value="7.5">자전거</option>
+        <option value="8.0">수영</option>
+        <option value="6.0">웨이트 트레이닝(고강도)</option>
+        <option value="5.0">웨이트 트레이닝(보통)</option>
+        <option value="6.5">등산</option>
+        <option value="12.0">줄넘기</option>
+        <option value="3.0">요가·필라테스</option>
+        <option value="7.3">에어로빅·줌바</option>
+      </select>
+      <div class="row">
+        <div><label>몸무게 (kg)</label><input id="bn_w" type="number" inputmode="decimal" placeholder="70"></div>
+        <div><label>운동 시간 (분)</label><input id="bn_min" type="number" inputmode="numeric" placeholder="40"></div>
+      </div>
+      <button class="calc" onclick="calcBurn()">계산하기</button>
+      <div class="result" id="bn_res">
+        <div><span class="big" id="bn_kcal">0</span> <span class="unit">kcal / 소모량</span></div>
+        <table>
+          <tr><td>밥 한 공기(약 300kcal) 환산</td><td id="bn_rice">0 공기</td></tr>
+          <tr><td>지방 감량 환산(약 7700kcal=1kg)</td><td id="bn_fat">0 g</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 쿠팡 파트너스 영역 (실제 링크로 교체) -->
+  <div class="coupang">
+    <h3>💪 운동에 도움되는 추천템</h3>
+    <a href="#REPLACE_쿠팡링크" rel="nofollow sponsored" target="_blank">
+      <span class="emoji">🥛</span><div><div class="t">프로틴 보충제</div><div class="d">단백질 목표 채우기 가장 쉬운 방법</div></div>
+    </a>
+    <a href="#REPLACE_쿠팡링크" rel="nofollow sponsored" target="_blank">
+      <span class="emoji">🍗</span><div><div class="t">닭가슴살 / 도시락</div><div class="d">간편하게 고단백 식단</div></div>
+    </a>
+    <a href="#REPLACE_쿠팡링크" rel="nofollow sponsored" target="_blank">
+      <span class="emoji">🏋️</span><div><div class="t">홈트 기구 (덤벨·밴드)</div><div class="d">집에서 1RM 올리기</div></div>
+    </a>
+    <p class="disclosure">※ 이 페이지는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.</p>
+  </div>
+
+  <!-- 하단 광고 자리 -->
+  <div class="ad-slot">광고 영역 (애드센스 승인 후 자동 노출)</div>
+
+  <!-- FAQ (SEO + 신뢰도) -->
+  <div class="card faq">
+    <h2>자주 묻는 질문</h2>
+    <details><summary>TDEE대로 먹으면 살이 빠지나요?</summary>
+      <p>TDEE는 '유지 칼로리'입니다. 살을 빼려면 TDEE보다 300~500kcal 적게(다이어트 값), 근육을 키우려면 200~300kcal 많게 드세요.</p></details>
+    <details><summary>1RM을 직접 들지 않고 어떻게 아나요?</summary>
+      <p>가벼운 무게로 여러 번 든 기록(예: 60kg 8회)을 넣으면 Epley 공식으로 최대중량을 추정합니다. 부상 위험 없이 강도 설정이 가능해요.</p></details>
+    <details><summary>줄자 체지방률이 인바디만큼 정확한가요?</summary>
+      <p>미해군 둘레 공식은 ±3~4% 오차가 있습니다. 절대값보다 '변화 추세'를 보는 용도로 쓰세요.</p></details>
+    <details><summary>표준체중 BMI 기준이 한국인에게 맞나요?</summary>
+      <p>대한비만학회는 아시아인 기준 정상 BMI를 18.5~22.9로 봅니다. 본 계산기도 이 기준을 따릅니다.</p></details>
+  </div>
+</div>
+
+<footer>
+  핏툴 · 무료 건강 계산기 · 의학적 진단이 아닌 참고용입니다.<br>
+  © 2026 fit-tools
+</footer>
+
+<script>
+  // 탭 전환
+  const tabs=document.getElementById('tabs');
+  tabs.addEventListener('click',e=>{
+    if(e.target.tagName!=='BUTTON')return;
+    [...tabs.children].forEach(b=>b.classList.toggle('active',b===e.target));
+    const id=e.target.dataset.tab;
+    document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===id));
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+  // 여성 선택 시 엉덩이둘레 표시
+  document.getElementById('b_sex').addEventListener('change',e=>{
+    document.getElementById('b_hipwrap').style.display = e.target.value==='f'?'block':'none';
+  });
+
+  const num=v=>parseFloat(v)||0;
+  const show=id=>document.getElementById(id).classList.add('show');
+  const r=n=>Math.round(n);
+
+  // 1. TDEE - Mifflin-St Jeor 공식
+  function calcTDEE(){
+    const sex=t_sex.value, age=num(t_age.value), h=num(t_h.value), w=num(t_w.value), act=num(t_act.value);
+    if(!age||!h||!w){alert('나이·키·몸무게를 입력하세요');return;}
+    let bmr = 10*w + 6.25*h - 5*age + (sex==='m'?5:-161);
+    const tdee = bmr*act;
+    t_bmr.textContent = r(bmr)+' kcal';
+    t_tdee.textContent = r(tdee).toLocaleString();
+    t_cut.textContent = r(tdee-500).toLocaleString()+' kcal';
+    t_bulk.textContent = r(tdee+300).toLocaleString()+' kcal';
+    show('t_res');
+  }
+
+  // 2. 단백질
+  function calcProtein(){
+    const w=num(p_w.value), g=num(p_goal.value);
+    if(!w){alert('몸무게를 입력하세요');return;}
+    const total=w*g;
+    p_g.textContent=r(total);
+    p_chk.textContent=(total/23).toFixed(1)+' 개';
+    p_egg.textContent=Math.round(total/6)+' 개';
+    p_scoop.textContent=(total/24).toFixed(1)+' 스쿱';
+    show('p_res');
+  }
+
+  // 3. 1RM - Epley 공식
+  function calcORM(){
+    const w=num(o_w.value), reps=num(o_r.value);
+    if(!w||!reps){alert('중량·횟수를 입력하세요');return;}
+    const orm = reps===1 ? w : w*(1+reps/30);
+    o_orm.textContent=r(orm);
+    o_90.textContent=r(orm*0.9)+' kg';
+    o_80.textContent=r(orm*0.8)+' kg';
+    o_70.textContent=r(orm*0.7)+' kg';
+    show('o_res');
+  }
+
+  // 4. 체지방률 - 미해군 공식
+  function calcBF(){
+    const sex=b_sex.value, h=num(b_h.value), waist=num(b_waist.value), neck=num(b_neck.value);
+    if(!h||!waist||!neck){alert('키·허리·목둘레를 입력하세요');return;}
+    let bf;
+    if(sex==='m'){
+      bf = 495/(1.0324 - 0.19077*Math.log10(waist-neck) + 0.15456*Math.log10(h)) - 450;
+    }else{
+      const hip=num(b_hip.value);
+      if(!hip){alert('여성은 엉덩이둘레도 입력하세요');return;}
+      bf = 495/(1.29579 - 0.35004*Math.log10(waist+hip-neck) + 0.22100*Math.log10(h)) - 450;
+    }
+    bf=Math.max(2,bf);
+    b_pct.textContent=bf.toFixed(1);
+    let cat;
+    if(sex==='m') cat = bf<6?'필수지방':bf<14?'운동선수':bf<18?'좋음':bf<25?'평균':'비만 경계';
+    else cat = bf<14?'필수지방':bf<21?'운동선수':bf<25?'좋음':bf<32?'평균':'비만 경계';
+    b_cat.textContent=cat;
+    show('b_res');
+  }
+
+  // 5. 표준체중 / BMI
+  function calcIdeal(){
+    const h=num(i_h.value), w=num(i_w.value);
+    if(!h){alert('키를 입력하세요');return;}
+    const m=h/100;
+    const std=22*m*m;
+    const low=18.5*m*m, high=22.9*m*m;
+    i_std.textContent=std.toFixed(1);
+    i_range.textContent=low.toFixed(1)+' ~ '+high.toFixed(1)+' kg';
+    if(w){
+      const bmi=w/(m*m);
+      i_bmi.textContent=bmi.toFixed(1);
+      let cat = bmi<18.5?'저체중':bmi<23?'정상':bmi<25?'과체중':bmi<30?'비만':'고도비만';
+      i_cat.textContent=cat;
+    }else{
+      i_bmi.textContent='몸무게 입력 시';
+      i_cat.textContent='-';
+    }
+    show('i_res');
+  }
+
+  // 6. 물 섭취량
+  function calcWater(){
+    const w=num(w_w.value), perKg=num(w_act.value);
+    if(!w){alert('몸무게를 입력하세요');return;}
+    const ml=w*perKg;
+    w_l.textContent=(ml/1000).toFixed(2);
+    w_ml.textContent=r(ml).toLocaleString()+' ml';
+    w_cup.textContent=Math.round(ml/200)+' 잔';
+    w_bottle.textContent=(ml/500).toFixed(1)+' 병';
+    show('w_res');
+  }
+
+  // 7. 칼로리 소모 - MET 공식
+  function calcBurn(){
+    const met=num(bn_met.value), w=num(bn_w.value), min=num(bn_min.value);
+    if(!w||!min){alert('몸무게·운동 시간을 입력하세요');return;}
+    const kcal = met*3.5*w/200*min; // kcal = MET*3.5*kg/200*분
+    bn_kcal.textContent=r(kcal).toLocaleString();
+    bn_rice.textContent=(kcal/300).toFixed(1)+' 공기';
+    bn_fat.textContent=r(kcal/7700*1000)+' g';
+    show('bn_res');
+  }
+</script>
+</body>
+</html>
