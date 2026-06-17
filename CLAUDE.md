@@ -36,3 +36,5 @@
 - 초기: 계산기 7종 단일 HTML 구축
 - 쿠팡 파트너스 링크 3개 연동
 - 2026-06-16: 생태계 허브(mission-control)에 편입. CLAUDE.md 메모리 생성
+- 2026-06-17: SEO 1차 — canonical을 실주소(github.io/fit-tools)로 교정, og:url/site_name·twitter card 추가,
+  **JSON-LD 구조화데이터(WebApplication+FAQPage) 삽입**. 남음: 애드센스 ID·GH Pages 확인·계산기별 H2/콘텐츠 보강.
