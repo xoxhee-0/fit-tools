@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>핏툴 | 무료 계산기 12종 (만나이·연봉실수령액·대출이자·평수·디데이·건강)</title>
+<title>핏툴 | 무료 계산기 13종 (만나이·연봉실수령액·대출이자·평수·디데이·건강)</title>
 <meta name="description" content="검색 수요가 큰 만 나이, 연봉 실수령액, 대출이자, 평수↔㎡, 디데이 계산기와 TDEE, 1RM, 단백질, 체지방률, BMI, 물 섭취량, 운동 칼로리 소모량을 한 곳에서 무료로 계산하세요." />
 <meta name="keywords" content="만 나이 계산기, 연봉 실수령액 계산기, 대출이자 계산기, 평수 계산기, 제곱미터 계산기, 디데이 계산기, TDEE 계산기, 1RM 계산기, 단백질 섭취량 계산기, 체지방률 계산기, 표준체중 계산기, 물 섭취량 계산기, 칼로리 소모량 계산기" />
-<meta property="og:title" content="핏툴 | 무료 계산기 12종" />
+<meta property="og:title" content="핏툴 | 무료 계산기 13종" />
 <meta property="og:description" content="만나이·연봉실수령액·대출이자·평수·디데이와 건강 계산기를 1초 만에 계산하는 무료 도구" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="ko_KR" />
 <meta property="og:url" content="https://xoxhee-0.github.io/fit-tools/" />
 <meta property="og:site_name" content="핏툴" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="핏툴 | 무료 계산기 12종" />
+<meta name="twitter:title" content="핏툴 | 무료 계산기 13종" />
 <meta name="twitter:description" content="만나이·연봉실수령액·대출이자·평수·디데이와 건강 계산기를 1초 만에 계산하는 무료 도구" />
 <link rel="canonical" href="https://xoxhee-0.github.io/fit-tools/" />
 
@@ -22,7 +22,7 @@
 {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  "name": "핏툴 — 무료 계산기 12종",
+  "name": "핏툴 — 무료 계산기 13종",
   "url": "https://xoxhee-0.github.io/fit-tools/",
   "applicationCategory": "HealthApplication",
   "operatingSystem": "Web",
@@ -159,7 +159,7 @@
 <body>
 <header>
   <h1><span>핏</span>툴</h1>
-  <p>네이버에 없는 생활·운동·다이어트 계산기 12종 · 100% 무료</p>
+  <p>네이버에 없는 생활·운동·다이어트 계산기 13종 · 100% 무료</p>
 </header>
 
 <div class="wrap">
@@ -174,6 +174,7 @@
     <button data-tab="age">🎂 만 나이</button>
     <button data-tab="salary">💰 연봉 실수령액</button>
     <button data-tab="loan">🏦 대출이자</button>
+    <button data-tab="jeonse">🔑 전세대출 한도</button>
     <button data-tab="area">🏠 평수↔㎡</button>
     <button data-tab="dday">📅 디데이</button>
   </nav>
@@ -513,6 +514,55 @@
     </div>
   </section>
 
+  <!-- 10-2. 전세자금대출 한도 -->
+  <section class="panel" id="jeonse">
+    <style>
+      #jeonse .jmode{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:#11141a;color:var(--sub);font-weight:700;cursor:pointer;font-size:.95rem}
+      #jeonse .jmode.active{background:var(--accent);color:#04222e;border-color:var(--accent)}
+    </style>
+    <div class="card">
+      <h2>전세자금대출 한도 계산기</h2>
+      <p class="hint">전세보증금과 지역으로 예상 대출 한도를 추정합니다. 유형을 <b>일반 / 버팀목(정부기금)</b> 버튼으로 바꿔 비교하세요. 실제 한도는 소득·신용·보증기관에 따라 달라집니다.</p>
+      <label>대출 유형</label>
+      <div class="row" style="gap:8px;margin-bottom:6px">
+        <button type="button" class="jmode active" data-m="normal" onclick="setJmode('normal')">일반 전세대출</button>
+        <button type="button" class="jmode" data-m="bt" onclick="setJmode('bt')">버팀목(정부기금)</button>
+      </div>
+      <label>전세보증금 (만원)</label><input id="j_deposit" type="number" inputmode="numeric" placeholder="20000">
+      <label>지역</label>
+      <select id="j_region">
+        <option value="capital">수도권(서울·경기·인천)</option>
+        <option value="other">그 외 지역</option>
+      </select>
+      <button class="calc" onclick="calcJeonse()">한도 계산하기</button>
+      <div class="result" id="j_res">
+        <div><span class="big" id="j_limit">0</span> <span class="unit">만원 / 예상 대출 한도</span></div>
+        <table>
+          <tr><td>적용 유형</td><td id="j_type">-</td></tr>
+          <tr><td>적용 기준</td><td id="j_basis">-</td></tr>
+          <tr><td>내가 마련할 보증금</td><td id="j_self">0원</td></tr>
+        </table>
+        <p id="j_msg" style="margin:10px 0 0;color:#9aa0aa;font-size:.86rem"></p>
+      </div>
+      <div class="info">
+        <h3>일반 vs 버팀목, 뭐가 다를까?</h3>
+        <ul>
+          <li><b>일반 전세대출</b>(시중은행): 소득 제한이 거의 없고 한도가 큽니다(보통 보증금의 80%). 대신 금리가 시장금리(4~5%대)예요.</li>
+          <li><b>버팀목 전세대출</b>(주택도시기금): 금리가 낮지만(2%대~) <b>무주택 + 부부합산 연소득 약 5천만원 이하</b> 등 자격이 있고, 보증금·한도 상한이 있습니다.</li>
+        </ul>
+        <h3>버팀목 적용 기준(일반가구, 추정)</h3>
+        <ul>
+          <li>대출 비율: 보증금의 약 <b>70%</b> 이내</li>
+          <li>한도 상한: 수도권 약 <b>1.2억원</b> / 그 외 약 <b>0.8억원</b></li>
+          <li>보증금 상한: 수도권 약 3억원 / 그 외 약 2억원 (초과 시 대상 아님)</li>
+          <li>신혼·청년·다자녀는 우대로 한도·상한이 더 높습니다.</li>
+        </ul>
+        <h3>참고</h3>
+        <p>이 계산기는 일반가구 기준 추정치입니다. 연도별 기준 변경과 우대조건이 있으니, 정확한 한도·금리는 <b>주택도시기금 기금e든든</b>과 거래 은행에서 확인하세요.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- 11. 평수 변환 -->
   <section class="panel" id="area">
     <div class="card">
@@ -797,6 +847,43 @@
     l_total.textContent=won(total);
     l_last.textContent=won(last);
     show('l_res');
+  }
+
+  // 10-2. 전세자금대출 한도
+  let jMode='normal';
+  function setJmode(m){
+    jMode=m;
+    document.querySelectorAll('#jeonse .jmode').forEach(b=>b.classList.toggle('active',b.dataset.m===m));
+    if(document.getElementById('j_res').classList.contains('show')) calcJeonse();
+  }
+  function calcJeonse(){
+    const dep=num(j_deposit.value); // 만원
+    if(!dep){alert('전세보증금을 입력하세요');return;}
+    const capital=j_region.value==='capital';
+    let limit, basis, msg='';
+    if(jMode==='normal'){
+      limit=Math.round(dep*0.8);
+      j_type.textContent='일반 전세대출(시중은행)';
+      basis='보증금의 80% 추정';
+      msg='소득·신용·보증기관(HF/HUG/SGI)에 따라 한도와 금리가 달라집니다. 정확한 한도는 거래 은행에서 확인하세요.';
+    }else{
+      const depCap=capital?30000:20000;      // 보증금 상한(만원)
+      const limCap=capital?12000:8000;        // 한도 상한(만원)
+      if(dep>depCap){
+        limit=0; basis='대상 아님';
+        msg='보증금이 버팀목 상한(수도권 약 3억 / 그 외 약 2억)을 초과해 일반가구 기준 대상이 아닙니다. 신혼·청년 우대 상품은 상한이 더 높을 수 있어요.';
+      }else{
+        limit=Math.min(Math.round(dep*0.7), limCap);
+        basis='보증금 70% 와 지역상한('+(capital?'1.2억':'0.8억')+') 중 작은 값';
+        msg='무주택 + 부부합산 연소득 약 5천만원 이하 등 자격 요건 충족 시. 신혼·청년·다자녀는 한도가 더 높습니다. 기금e든든에서 확인하세요.';
+      }
+      j_type.textContent='버팀목 전세대출(정부기금)';
+    }
+    j_limit.textContent=limit.toLocaleString();
+    j_basis.textContent=basis;
+    j_self.textContent=won(Math.max(dep-limit,0)*10000);
+    j_msg.textContent=msg;
+    show('j_res');
   }
 
   // 11. 평수 ↔ 제곱미터
