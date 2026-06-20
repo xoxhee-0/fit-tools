@@ -479,9 +479,18 @@
 
   <!-- 9-2. 종합소득세 (프리랜서/유튜버) -->
   <section class="panel" id="incometax">
+    <style>
+      #incometax .itmode{flex:1;padding:11px;border-radius:10px;border:1px solid var(--line);background:#11141a;color:var(--sub);font-weight:700;cursor:pointer;font-size:.92rem}
+      #incometax .itmode.active{background:var(--accent);color:#04222e;border-color:var(--accent)}
+    </style>
     <div class="card">
       <h2>종합소득세 계산기 (프리랜서·유튜버)</h2>
-      <p class="hint">3.3% 떼고 받는 프리랜서·1인 미디어(면세사업자)용 간이 추정입니다. 연 수입·경비를 넣으면 종합소득세와 5월 정산(환급/추가납부)을 추정합니다.</p>
+      <p class="hint">사업자 유형을 고르고 연 수입·경비를 넣으면 종합소득세를 추정합니다. 면세사업자는 3.3% 정산(환급/추가납부)을, 과세사업자는 부가세(별도)도 함께 안내합니다.</p>
+      <label>사업자 유형</label>
+      <div class="row" style="gap:8px;margin-bottom:6px">
+        <button type="button" class="itmode active" data-m="exempt" onclick="setItMode('exempt')">면세사업자(프리랜서)</button>
+        <button type="button" class="itmode" data-m="taxable" onclick="setItMode('taxable')">과세(일반)사업자</button>
+      </div>
       <label>연간 수입금액 (만원)</label><input id="it_income" type="number" inputmode="numeric" placeholder="5000">
       <label>필요경비 (만원)</label><input id="it_expense" type="number" inputmode="numeric" placeholder="1500">
       <label>부양가족 수 (본인 제외)</label><input id="it_dep" type="number" inputmode="numeric" placeholder="0">
@@ -492,16 +501,21 @@
           <tr><td>과세표준</td><td id="it_base">0원</td></tr>
           <tr><td>산출 소득세</td><td id="it_tax">0원</td></tr>
           <tr><td>지방소득세(10%)</td><td id="it_local">0원</td></tr>
-          <tr><td>이미 뗀 3.3% 원천징수</td><td id="it_prepaid">0원</td></tr>
-          <tr><td id="it_settle_l">5월 정산</td><td id="it_settle">0원</td></tr>
+          <tr id="it_row_prepaid"><td id="it_prepaid_l">이미 뗀 3.3% 원천징수</td><td id="it_prepaid">0원</td></tr>
+          <tr id="it_row_settle"><td id="it_settle_l">5월 정산</td><td id="it_settle">0원</td></tr>
+          <tr id="it_row_vat" style="display:none"><td>예상 부가세(별도, 연)</td><td id="it_vat">0원</td></tr>
         </table>
         <p id="it_msg" style="margin:10px 0 0;color:#9aa0aa;font-size:.86rem"></p>
       </div>
       <div class="info">
         <h3>프리랜서·유튜버도 5월에 종합소득세를 낸다</h3>
         <p>업체가 대금을 줄 때 3.3%(소득세 3% + 지방세 0.3%)를 미리 떼고 줍니다. 하지만 이건 '미리 낸 세금'일 뿐, 1년치 소득을 모아 다음 해 5월에 <b>종합소득세로 정산</b>합니다. 이때 더 냈으면 <b>환급</b>, 덜 냈으면 <b>추가납부</b>가 발생합니다.</p>
-        <h3>면세사업자도 종소세는 낸다</h3>
-        <p>인적용역 프리랜서·1인 미디어는 부가가치세 면세사업자인 경우가 많은데, 부가세가 면제일 뿐 <b>종합소득세는 그대로 신고·납부</b> 대상입니다.</p>
+        <h3>면세사업자 vs 과세사업자, 종소세는 같다</h3>
+        <ul>
+          <li><b>면세사업자</b>(인적용역 프리랜서·1인 미디어): 부가가치세가 면제됩니다. 대금 받을 때 3.3%를 떼이고, 5월에 종소세로 정산해 환급/추가납부가 갈립니다.</li>
+          <li><b>과세(일반)사업자</b>: 매출에 <b>부가세 10%가 별도</b>로 붙어 1·7월에 따로 신고·납부합니다. 보통 3.3% 원천징수 대상이 아닙니다.</li>
+        </ul>
+        <p>중요한 건, <b>종합소득세 계산식은 두 유형이 동일</b>하다는 점입니다. 차이는 '부가세를 따로 내느냐'일 뿐입니다. 버튼으로 유형을 바꾸면 면세는 3.3% 정산을, 과세는 예상 부가세(별도)를 보여줍니다.</p>
         <h3>과세표준과 세율(2026년 기준)</h3>
         <p>과세표준 = 수입 − 필요경비 − 소득공제. 여기에 6%~45% 누진세율이 적용됩니다(1,400만 이하 6%, 5,000만 이하 15%, 8,800만 이하 24% …). 이 계산기는 본인·부양가족 기본공제(1인 150만원)만 반영한 추정치이며, 실제는 경비율·각종 공제·세액공제에 따라 달라집니다. 정확한 신고는 홈택스 또는 세무 전문가를 이용하세요.</p>
       </div>
@@ -891,6 +905,12 @@
     for(const [cap,rate,ded] of b){ if(base<=cap) return Math.max(base*rate-ded,0); }
     return 0;
   }
+  let itMode='exempt';
+  function setItMode(m){
+    itMode=m;
+    document.querySelectorAll('#incometax .itmode').forEach(b=>b.classList.toggle('active',b.dataset.m===m));
+    if(document.getElementById('it_res').classList.contains('show')) calcIncomeTax();
+  }
   function calcIncomeTax(){
     const income=num(it_income.value)*10000, expense=num(it_expense.value)*10000, dep=Math.max(Math.floor(num(it_dep.value)),0);
     if(!income){alert('연간 수입금액을 입력하세요');return;}
@@ -899,21 +919,30 @@
     const tax=incomeTaxKRW(base);
     const local=tax*0.1;
     const totalTax=tax+local;
-    const prepaid=income*0.033;                    // 3.3% 원천징수 기납부
-    const settle=totalTax-prepaid;                 // +면 추가납부, −면 환급
     it_base.textContent=won(base);
     it_tax.textContent=won(tax);
     it_local.textContent=won(local);
-    it_prepaid.textContent=won(prepaid);
     it_total.textContent=won(totalTax).replace('원','');
-    if(settle>=0){
-      it_settle_l.textContent='추가 납부 예상';
-      it_settle.textContent=won(settle);
-      it_msg.textContent='이미 뗀 3.3%보다 실제 세금이 많아 5월에 약 '+won(settle)+'을 추가로 냅니다. 경비·공제를 빠짐없이 반영하면 줄어듭니다.';
+    const rowPre=document.getElementById('it_row_prepaid'), rowSet=document.getElementById('it_row_settle'), rowVat=document.getElementById('it_row_vat');
+    if(itMode==='exempt'){
+      rowPre.style.display=''; rowSet.style.display=''; rowVat.style.display='none';
+      const prepaid=income*0.033;                  // 3.3% 원천징수 기납부
+      const settle=totalTax-prepaid;               // +면 추가납부, −면 환급
+      it_prepaid.textContent=won(prepaid);
+      if(settle>=0){
+        it_settle_l.textContent='추가 납부 예상';
+        it_settle.textContent=won(settle);
+        it_msg.textContent='이미 뗀 3.3%보다 실제 세금이 많아 5월에 약 '+won(settle)+'을 추가로 냅니다. 경비·공제를 빠짐없이 반영하면 줄어듭니다.';
+      }else{
+        it_settle_l.textContent='환급 예상';
+        it_settle.textContent=won(-settle);
+        it_msg.textContent='이미 뗀 3.3%가 실제 세금보다 많아 5월에 약 '+won(-settle)+'을 돌려받을 수 있습니다.';
+      }
     }else{
-      it_settle_l.textContent='환급 예상';
-      it_settle.textContent=won(-settle);
-      it_msg.textContent='이미 뗀 3.3%가 실제 세금보다 많아 5월에 약 '+won(-settle)+'을 돌려받을 수 있습니다.';
+      rowPre.style.display='none'; rowSet.style.display='none'; rowVat.style.display='';
+      const vat=Math.max(income-expense,0)*0.1;     // 매출세액−매입세액 근사
+      it_vat.textContent=won(vat);
+      it_msg.textContent='과세사업자는 종합소득세(5월)와 별도로 부가세를 1·7월에 신고합니다. 부가세는 (매출−과세매입)×10% 근사이며, 면세매입·간이과세 등에 따라 달라집니다.';
     }
     show('it_res');
   }
