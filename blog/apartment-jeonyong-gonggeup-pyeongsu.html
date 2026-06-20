@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>아파트 전용면적 vs 공급면적 차이와 평수 환산법</title>
+<meta name="description" content="아파트 전용면적, 공급면적, 계약면적의 차이를 정리하고 ㎡를 평으로 바꾸는 계산법과 예시를 설명합니다.">
+<meta name="keywords" content="전용면적, 공급면적, 계약면적, 아파트 평수 계산, 평수 환산, 전용 84 평수">
+<link rel="canonical" href="https://xoxhee-0.github.io/fit-tools/blog/apartment-jeonyong-gonggeup-pyeongsu.html">
+
+<meta property="og:type" content="article">
+<meta property="og:title" content="아파트 전용면적 vs 공급면적 차이와 평수 환산법">
+<meta property="og:description" content="전용면적과 공급면적의 차이, ㎡를 평으로 바꾸는 법, 예시 표까지 정리.">
+<meta property="og:url" content="https://xoxhee-0.github.io/fit-tools/blog/apartment-jeonyong-gonggeup-pyeongsu.html">
+<meta property="og:site_name" content="핏툴 블로그">
+<meta name="twitter:card" content="summary">
+
+<!-- 구글 애드센스 -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3820496689759025" crossorigin="anonymous"></script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "아파트 전용면적 vs 공급면적 차이와 평수 환산법",
+  "description": "아파트 면적 표기에서 전용면적, 공급면적, 계약면적이 무엇을 뜻하는지와 평수 환산 방법.",
+  "author": {"@type": "Organization", "name": "핏툴"},
+  "publisher": {"@type": "Organization", "name": "핏툴"},
+  "datePublished": "2026-06-20",
+  "dateModified": "2026-06-20",
+  "mainEntityOfPage": "https://xoxhee-0.github.io/fit-tools/blog/apartment-jeonyong-gonggeup-pyeongsu.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {"@type": "ListItem", "position": 1, "name": "핏툴", "item": "https://xoxhee-0.github.io/fit-tools/"},
+    {"@type": "ListItem", "position": 2, "name": "블로그", "item": "https://xoxhee-0.github.io/fit-tools/blog/"},
+    {"@type": "ListItem", "position": 3, "name": "아파트 전용면적 vs 공급면적 차이와 평수 환산법"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type": "Question", "name": "전용면적 84㎡는 몇 평인가요?",
+      "acceptedAnswer": {"@type": "Answer", "text": "84㎡를 3.305785로 나누면 약 25.4평입니다. 다만 부동산에서 흔히 말하는 34평형은 공급면적 기준인 경우가 많아 전용면적 평수와 다릅니다."}},
+    {"@type": "Question", "name": "발코니는 전용면적에 포함되나요?",
+      "acceptedAnswer": {"@type": "Answer", "text": "일반적으로 아파트 발코니는 서비스면적으로 보며 전용면적에 포함하지 않습니다. 확장 여부와 세부 면적은 도면과 분양 공고를 확인해야 합니다."}},
+    {"@type": "Question", "name": "집 크기를 비교할 때 어떤 면적을 봐야 하나요?",
+      "acceptedAnswer": {"@type": "Answer", "text": "실제로 가족이 쓰는 내부 공간을 비교하려면 전용면적을 우선 보세요. 관리비나 분양 표기까지 함께 볼 때는 공급면적과 계약면적도 같이 확인하는 것이 좋습니다."}}
+  ]
+}
+</script>
+
+<style>
+  :root{--bg:#0f1115;--card:#171a21;--line:#262b36;--txt:#e8eaed;--sub:#9aa0aa;--accent:#4da3ff}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;line-height:1.7}
+  .wrap{max-width:720px;margin:0 auto;padding:24px 20px 64px}
+  nav.bc{font-size:.8rem;color:var(--sub);margin-bottom:14px}
+  nav.bc a{color:var(--accent);text-decoration:none}
+  h1{font-size:1.6rem;line-height:1.35;margin:0 0 10px}
+  .meta{color:var(--sub);font-size:.82rem;margin-bottom:22px;border-bottom:1px solid var(--line);padding-bottom:16px}
+  h2{font-size:1.2rem;margin:30px 0 10px;border-left:4px solid var(--accent);padding-left:10px}
+  p{margin:0 0 12px}
+  ul,ol{margin:0 0 12px;padding-left:20px}
+  li{margin:4px 0}
+  table{width:100%;border-collapse:collapse;margin:8px 0 16px;font-size:.9rem}
+  th,td{border:1px solid var(--line);padding:8px 10px;text-align:left}
+  th{background:#1d222b}
+  .cta{display:block;text-align:center;background:var(--accent);color:#06121f;font-weight:700;padding:15px;border-radius:12px;text-decoration:none;margin:24px 0}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:.86rem;color:var(--sub);margin:0 0 16px}
+  .faq details{border-top:1px solid var(--line);padding:12px 0}
+  .faq summary{cursor:pointer;font-weight:600}
+  .faq p{color:var(--sub);font-size:.9rem;margin:8px 0 0}
+  footer{margin-top:40px;padding-top:18px;border-top:1px solid var(--line);color:var(--sub);font-size:.8rem;text-align:center}
+  footer a{color:var(--accent);text-decoration:none}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="bc"><a href="/fit-tools/">핏툴</a> › <a href="/fit-tools/blog/">블로그</a> › 아파트 전용면적 vs 공급면적</nav>
+
+  <h1>아파트 전용면적 vs 공급면적 차이와 평수 환산법</h1>
+  <div class="meta">2026년 6월 20일 · 부동산/면적</div>
+
+  <p>아파트를 볼 때 가장 헷갈리는 숫자가 면적입니다. 같은 집도 전용 84㎡, 공급 110㎡, 34평형처럼 다르게 적힙니다. 핵심은 <b>내가 실제로 쓰는 내부 면적</b>과 <b>공용공간까지 나눈 면적</b>을 구분하는 것입니다.</p>
+
+  <h2>전용면적은 실제 생활공간</h2>
+  <p>전용면적은 한 세대가 독립적으로 사용하는 공간입니다. 거실, 방, 주방, 욕실처럼 현관문 안쪽의 주요 실내 면적을 뜻합니다. 집 크기 비교는 전용면적을 먼저 보는 것이 직관적입니다. 발코니는 일반적으로 서비스면적으로 보아 전용면적에 포함하지 않습니다.</p>
+
+  <h2>공급면적은 전용 + 주거공용</h2>
+  <p>공급면적은 전용면적에 계단, 복도, 엘리베이터홀 같은 주거공용면적을 더한 값입니다. 예전부터 말하는 24평형, 34평형 같은 표현은 공급면적을 평으로 바꾼 경우가 많습니다. 그래서 전용 84㎡가 약 25평인데도 시장에서는 34평형으로 불리는 일이 생깁니다.</p>
+
+  <h2>계약면적까지 보면 더 커진다</h2>
+  <p>계약면적은 공급면적에 관리사무소, 지하주차장, 커뮤니티시설 등 기타공용면적을 더한 개념입니다. 오피스텔이나 상가에서는 특히 중요합니다. 아파트도 분양 공고에는 전용, 주거공용, 기타공용, 계약면적이 함께 나오므로 기준을 확인해야 합니다.</p>
+
+  <h2>평수 환산 공식</h2>
+  <p>1평은 3.305785㎡입니다. 따라서 ㎡를 평으로 바꾸려면 3.305785로 나누면 됩니다. 빠르게 어림할 때는 ㎡에 0.3025를 곱해도 거의 같은 값이 나옵니다.</p>
+  <div class="note">평수 = ㎡ ÷ 3.305785, 또는 ㎡ × 0.3025</div>
+  <table>
+    <tr><th>면적 표기</th><th>평수 환산</th><th>해석</th></tr>
+    <tr><td>전용 59㎡</td><td>약 17.8평</td><td>소형 아파트에서 흔한 실사용 면적</td></tr>
+    <tr><td>전용 84㎡</td><td>약 25.4평</td><td>흔히 34평형으로 불리는 타입이 많음</td></tr>
+    <tr><td>공급 110㎡</td><td>약 33.3평</td><td>전용 84㎡ 타입의 공급면적 예시</td></tr>
+  </table>
+
+  <a class="cta" href="/fit-tools/#area">▶ 전용면적·공급면적 평수 바로 계산하기</a>
+
+  <h2>비교할 때 보는 순서</h2>
+  <ol>
+    <li><b>전용면적</b>으로 실제 생활공간을 비교합니다.</li>
+    <li><b>공급면적</b>으로 흔히 말하는 평형과 관리비 기준을 함께 봅니다.</li>
+    <li><b>평면도</b>에서 방 배치, 복도 낭비, 발코니 확장 가능성을 확인합니다.</li>
+    <li><b>공고 원문</b>에서 면적 산정 기준과 공용면적 항목을 확인합니다.</li>
+  </ol>
+
+  <h2>자주 묻는 질문</h2>
+  <div class="faq">
+    <details><summary>전용면적 84㎡는 몇 평인가요?</summary>
+      <p>84㎡ ÷ 3.305785 = 약 25.4평입니다. 다만 부동산에서 흔히 말하는 34평형은 공급면적 기준인 경우가 많습니다.</p></details>
+    <details><summary>발코니는 전용면적에 포함되나요?</summary>
+      <p>일반적으로 발코니는 서비스면적으로 보며 전용면적에 넣지 않습니다. 확장 가능 여부와 실제 체감 면적은 평면도와 분양 자료를 확인해야 합니다.</p></details>
+    <details><summary>매매나 전세 비교는 어떤 면적으로 해야 하나요?</summary>
+      <p>실제 생활공간 비교는 전용면적이 기준입니다. 같은 전용이라도 구조와 발코니 확장 상태에 따라 체감 크기가 달라질 수 있습니다.</p></details>
+  </div>
+
+  <a class="cta" href="/fit-tools/#area">▶ 평수 계산기 사용하기</a>
+
+  <footer>
+    <p>이 글은 일반 정보 제공용이며, 실제 분양·매매 표기는 입주자모집공고와 등기·건축물대장 등 공식 자료를 확인하세요.</p>
+    <p><a href="/fit-tools/blog/">← 블로그 목록</a> · <a href="/fit-tools/">핏툴 계산기 12종</a></p>
+  </footer>
+</div>
+</body>
+</html>
