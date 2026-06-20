@@ -21,7 +21,8 @@
 - 배포: GitHub Pages(`https://xoxhee-0.github.io/fit-tools/`) 또는 Netlify Drop
 
 ## 3. 미해결 / 다음 (open loops)
-- [ ] 배포 확정 + GitHub Pages 활성화 확인
+- [x] **계산기 12종 main 머지 완료** (2026-06-20, PR #1 머지 1af8e21). GH Pages가 main 서빙 → 라이브 반영.
+- [ ] 배포 확정 + GitHub Pages 활성화 확인 (12종 다 보이는지 눈으로)
 - [ ] 구글 애드센스 코드 삽입 (현재 쿠팡만)
 - [ ] SEO: 각 계산기 메타태그/제목/구조화데이터, 검색 유입 추적
 - [ ] 계산기 추가(유입 키워드 기반) / 콘텐츠 보강
@@ -40,3 +41,5 @@
   **JSON-LD 구조화데이터(WebApplication+FAQPage) 삽입**. 남음: 애드센스 ID·GH Pages 확인·계산기별 H2/콘텐츠 보강.
 - 2026-06-18: 고검색량 생활 계산기 5종(만 나이, 연봉 실수령액, 대출이자, 평수↔㎡, 디데이)을 `index.html` 탭/패널 구조에 추가.
   선정 기준: 검색수요 높음 + 단일 HTML 구현 가능 + 모바일 입력폼 적합. BNB/세무처럼 예외가 큰 계산기는 간편 추정 문구 유지.
+- 2026-06-20: **PR #1 머지 → 12계산기 main 라이브** (admiring→main, CLAUDE.md 충돌은 12종 버전 채택으로 해결).
+  남은 액션: ① GH Pages에서 12종 노출 눈으로 확인 ② 애드센스 publisher ID 받으면 코드 삽입.
